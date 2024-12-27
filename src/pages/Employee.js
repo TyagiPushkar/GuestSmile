@@ -1,5 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@mui/material';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  Typography,
+  Button,
+  Modal,
+  Box,
+  TextField,
+} from '@mui/material';
 import axios from 'axios';
 
 const columns = [
@@ -11,16 +24,40 @@ const columns = [
   { id: 'Department', label: 'Department', minWidth: 150 },
 ];
 
+const modalStyle = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  boxShadow: 24,
+  p: 4,
+  borderRadius: 2,
+};
+
 export default function EmployeeTable() {
   const [employees, setEmployees] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newEmployee, setNewEmployee] = useState({
+    Name: '',
+    Email: '',
+    Department: '',
+    Mobile: '',
+    EmpId: '',
+    Active: 1,
+  });
 
   useEffect(() => {
-    // Retrieve user object from localStorage
+    fetchEmployees();
+  }, []);
+
+  const fetchEmployees = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     if (user && user.TenantId) {
-      const tenantId = user.TenantId;  // Using TenantId from localStorage
+      const tenantId = user.TenantId;
       axios
         .get(`https://namami-infotech.com/GuestSmile/src/employees/get_employee.php?tenantid=${tenantId}`)
         .then((response) => {
@@ -34,17 +71,52 @@ export default function EmployeeTable() {
     } else {
       console.error('TenantId is not available in user object or localStorage');
     }
-  }, []);
+  };
+
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewEmployee({ ...newEmployee, [name]: value });
+  };
+
+  const handleAddEmployee = () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user && user.TenantId) {
+      const tenantId = user.TenantId;
+
+      axios
+        .post('https://namami-infotech.com/GuestSmile/src/employees/add_employee.php', {
+          ...newEmployee,
+          TenantId: tenantId,
+        })
+        .then((response) => {
+          if (response.data.status === 'success') {
+            fetchEmployees(); // Refresh the employee list
+            handleCloseModal(); // Close the modal
+          } else {
+            console.error('Error:', response.data.message);
+          }
+        })
+        .catch((error) => console.error('Add error:', error));
+    }
+  };
 
   return (
-    <div sx={{ width: '100%', margin: 'auto', mt: 0, p: 2 }}>
+      <div sx={{ width: '100%', margin: 'auto', p: 2 }}>
+          <div style={{display:"flex", justifyContent:"space-between"}}>
       <Typography variant="h6" sx={{ mb: 2, textAlign: 'center', fontWeight: 'bold' }}>
         Employee List
       </Typography>
+      <Button variant="contained" onClick={handleOpenModal} sx={{ mb: 2, backgroundColor:"#9FAFC9" }}>
+        Add Employee
+              </Button>
+              </div>
       <TableContainer sx={{ maxHeight: 400 }}>
         <Table stickyHeader>
           <TableHead>
-            <TableRow sx={{ backgroundColor: '#9FAFC9' }}>
+            <TableRow sx={{ backgroundColor: 'black' }}>
               {columns.map((col) => (
                 <TableCell
                   key={col.id}
@@ -82,6 +154,58 @@ export default function EmployeeTable() {
           setPage(0);
         }}
       />
+
+      {/* Add Employee Modal */}
+      <Modal open={isModalOpen} onClose={handleCloseModal}>
+        <Box sx={modalStyle}>
+          <Typography variant="h6" sx={{ mb: 2 }}>
+            Add Employee
+          </Typography>
+          <TextField
+            label="Name"
+            name="Name"
+            fullWidth
+            sx={{ mb: 2 }}
+            value={newEmployee.Name}
+            onChange={handleInputChange}
+          />
+          <TextField
+            label="Email"
+            name="Email"
+            fullWidth
+            sx={{ mb: 2 }}
+            value={newEmployee.Email}
+            onChange={handleInputChange}
+          />
+          <TextField
+            label="Department"
+            name="Department"
+            fullWidth
+            sx={{ mb: 2 }}
+            value={newEmployee.Department}
+            onChange={handleInputChange}
+          />
+          <TextField
+            label="Mobile"
+            name="Mobile"
+            fullWidth
+            sx={{ mb: 2 }}
+            value={newEmployee.Mobile}
+            onChange={handleInputChange}
+          />
+          <TextField
+            label="Employee ID"
+            name="EmpId"
+            fullWidth
+            sx={{ mb: 2 }}
+            value={newEmployee.EmpId}
+            onChange={handleInputChange}
+          />
+          <Button variant="contained" color="primary" onClick={handleAddEmployee}>
+            Add Employee
+          </Button>
+        </Box>
+      </Modal>
     </div>
   );
 }

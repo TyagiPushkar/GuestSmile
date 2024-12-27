@@ -11,12 +11,11 @@ import {
   ListItemText,
   Box,
   Avatar,
-  Button,
   Menu,
   MenuItem,
   IconButton,
 } from "@mui/material";
-import { Home, DirectionsCar, Settings, Menu as MenuIcon } from "@mui/icons-material";
+import { Home, Menu as MenuIcon } from "@mui/icons-material";
 import BusinessIcon from '@mui/icons-material/Business';
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../assets/images/GuestSmile.png";
@@ -42,7 +41,7 @@ const Layout = ({ children }) => {
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
 
   const drawerContent = (
-    <List>
+    <List style={{marginTop:"20px"}}>
       <NavLink to="/dashboard" style={{ textDecoration: "none", color: "black" }}>
         <ListItem button>
           <ListItemIcon sx={{ color: "black" }}>
@@ -59,7 +58,6 @@ const Layout = ({ children }) => {
           <ListItemText primary="Employees" />
         </ListItem>
       </NavLink>
-      
     </List>
   );
 
@@ -71,12 +69,13 @@ const Layout = ({ children }) => {
      <AppBar
   position="fixed"
   sx={{
-    zIndex: (theme) => theme.zIndex.drawer + 1, // Ensures navbar stays on top
+    zIndex: (theme) => theme.zIndex.drawer + 1,
     background: "#9FAFC9",
-      height: 64,
-     boxShadow: "none",
+    height: 80, // Adjust height to accommodate the larger logo
+    boxShadow: "none",
   }}
 >
+
 
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
           {/* Mobile Menu Button */}
@@ -89,20 +88,20 @@ const Layout = ({ children }) => {
           >
             <MenuIcon />
           </IconButton>
-
                   {/* Logo */}
-                  <div style={{display:"flex", gap:"10px", alignItems:"center"}}>
-          <Box
-            component="img"
-            src={logo}
-            alt="Logo"
-            sx={{
-              height: 80,
-              width: "auto",
-              cursor: "pointer",
-            }}
-                  />
-                      </div>
+                  <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+    <Box
+    component="img"
+    src={logo}
+    alt="Logo"
+    sx={{
+      height: 120, // Adjusted height
+      width: "auto", // Ensures proper scaling
+      cursor: "pointer",
+    }}
+  />
+</div>
+
 
           {/* Profile and Logout */}
           <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -172,7 +171,7 @@ const Layout = ({ children }) => {
         sx={{
           flexGrow: 1,
           p: 1,
-          mt: 0, // Added margin-top for the main content to avoid overlapping with the AppBar
+          mt: 3, // Added margin-top for the main content to avoid overlapping with the AppBar
             overflowX: "hidden",
           background:"white"
         }}

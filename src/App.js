@@ -24,9 +24,10 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route
-          path="/login"
-          element={<Login setIsAuthenticated={setIsAuthenticated} />}
-        />
+  path="/login"
+  element={<Login setIsAuthenticated={setIsAuthenticated} />}
+/>
+
 
         {/* Private Routes with Layout */}
         <Route

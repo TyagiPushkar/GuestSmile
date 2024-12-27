@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate
 import image from "../assets/images/login.png";
 import "../assets/css/Login.css";
 
-const Login = () => {
+const Login = ({setIsAuthenticated}) => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,8 +16,8 @@ const Login = () => {
     setShowPassword((prevState) => !prevState);
   };
 
- const handleLogin = async (event) => {
-  event.preventDefault(); 
+const handleLogin = async (event) => {
+  event.preventDefault();
 
   setLoading(true);
   setErrorMessage("");
@@ -38,15 +38,16 @@ const Login = () => {
 
     if (data.message === "Login successful") {
       console.log("Login successful", data);
-      localStorage.setItem("user", JSON.stringify(data.user)); // Optionally store user info in localStorage
-      navigate("/dashboard"); // Use navigate instead of window.location.href
+      localStorage.setItem("user", JSON.stringify(data.user)); // Save user info in localStorage
+      setIsAuthenticated(true); // Update authentication state
+      navigate("/dashboard"); // Redirect to the dashboard
     } else {
       setErrorMessage(data.message || "Something went wrong!");
     }
   } catch (error) {
     setErrorMessage("Network error. Please try again later.");
   } finally {
-    setLoading(false); 
+    setLoading(false);
   }
 };
 
