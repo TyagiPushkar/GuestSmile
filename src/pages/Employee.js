@@ -12,7 +12,9 @@ import {
   Modal,
   Box,
   TextField,
+  IconButton,
 } from '@mui/material';
+import { CheckCircle, Cancel } from '@mui/icons-material';
 import axios from 'axios';
 
 const columns = [
@@ -22,6 +24,7 @@ const columns = [
   { id: 'Mobile', label: 'Mobile', minWidth: 150 },
   { id: 'Role', label: 'Role', minWidth: 100 },
   { id: 'Department', label: 'Department', minWidth: 150 },
+  { id: 'Active', label: 'Status', minWidth: 100 },
 ];
 
 const modalStyle = {
@@ -103,16 +106,43 @@ export default function EmployeeTable() {
     }
   };
 
+  const toggleEmployeeStatus = (empId, currentStatus) => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user && user.TenantId) {
+      const tenantId = user.TenantId;
+      const newStatus = currentStatus === 1 ? 0 : 1;
+
+      axios
+        .post('https://namami-infotech.com/GuestSmile/src/employees/active_employee.php', {
+          EmpId: empId,
+          TenantId: tenantId,
+          Active: newStatus,
+        })
+        .then((response) => {
+          if (response.data.status === 'success') {
+            fetchEmployees();
+          } else {
+            console.error('Error:', response.data.message);
+          }
+        })
+        .catch((error) => console.error('Status toggle error:', error));
+    }
+  };
+
   return (
-      <div sx={{ width: '100%', margin: 'auto', p: 2 }}>
-          <div style={{display:"flex", justifyContent:"space-between"}}>
-      <Typography variant="h6" sx={{ mb: 2, textAlign: 'center', fontWeight: 'bold' }}>
-        Employee List
-      </Typography>
-      <Button variant="contained" onClick={handleOpenModal} sx={{ mb: 2, backgroundColor:"#9FAFC9" }}>
-        Add Employee
-              </Button>
-              </div>
+    <div sx={{ width: '100%', margin: 'auto', p: 2 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Typography variant="h6" sx={{ mb: 2, textAlign: 'center', fontWeight: 'bold' }}>
+          Employee List
+        </Typography>
+        <Button
+          variant="contained"
+          onClick={handleOpenModal}
+          sx={{ mb: 2, backgroundColor: '#115060' }}
+        >
+          Add Employee
+        </Button>
+      </div>
       <TableContainer sx={{ maxHeight: 400 }}>
         <Table stickyHeader>
           <TableHead>
@@ -122,8 +152,8 @@ export default function EmployeeTable() {
                   key={col.id}
                   style={{
                     minWidth: col.minWidth,
-                    backgroundColor: '#9FAFC9',
-                    color: 'black',
+                    backgroundColor: '#115060',
+                    color: 'white',
                     fontWeight: 'bold',
                   }}
                 >
@@ -136,7 +166,18 @@ export default function EmployeeTable() {
             {employees.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
               <TableRow hover key={row.EmpId}>
                 {columns.map((col) => (
-                  <TableCell key={col.id}>{row[col.id]}</TableCell>
+                  <TableCell key={col.id}>
+                    {col.id === 'Active' ? (
+                      <IconButton
+                        onClick={() => toggleEmployeeStatus(row.EmpId, row.Active)}
+                        color={row.Active === 1 ? 'success' : 'error'}
+                      >
+                        {row.Active === 1 ? <CheckCircle /> : <Cancel />}
+                      </IconButton>
+                    ) : (
+                      row[col.id]
+                    )}
+                  </TableCell>
                 ))}
               </TableRow>
             ))}

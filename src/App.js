@@ -7,6 +7,7 @@ import NotFound from "./components/NotFoud";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Employee from "./pages/Employee";
+import VisitTable from "./pages/VisitTable";
 
 
 function App() {
@@ -36,8 +37,9 @@ function App() {
             <PrivateRoute>
               <Layout>
                 <Routes>
-                  <Route path="/dashboard" element={<Dashboard />} /> {/* Add the Dashboard route */}
+                  <Route path="/" element={<Dashboard />} /> {/* Add the Dashboard route */}
                   <Route path="/employees" element={<Employee />} />
+                  <Route path="/guest-list" element={<VisitTable/> } />
                   {/* You can add more nested routes here */}
                 </Routes>
               </Layout>

@@ -40,7 +40,7 @@ const handleLogin = async (event) => {
       console.log("Login successful", data);
       localStorage.setItem("user", JSON.stringify(data.user)); // Save user info in localStorage
       setIsAuthenticated(true); // Update authentication state
-      navigate("/dashboard"); // Redirect to the dashboard
+      navigate("/"); // Redirect to the dashboard
     } else {
       setErrorMessage(data.message || "Something went wrong!");
     }

@@ -1,0 +1,154 @@
+/* Container */
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 0 10px;
+    font-family: 'Arial', sans-serif;
+    box-sizing: border-box;
+}
+
+/* Header */
+.dashboard-header {
+    text-align: center;
+    padding: 20px 0;
+    width: 100%;
+    background: #115060;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-header h1 {
+    font-size: 2rem;
+    margin: 0;
+}
+
+/* Content */
+.dashboard-content {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: space-between;
+    width: 100%;
+}
+
+/* Statistics Section */
+.statistics-section {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 50%;
+}
+
+/* Pie Chart */
+.pie-chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    margin: 0 auto;
+}
+
+/* Recent Visits Section */
+.recent-visit-section {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 50%;
+    overflow: hidden;
+}
+
+/* Recent Visits Table */
+.recent-visits-table {
+    width: 100%;
+    /* Set table width to 100% */
+    border-collapse: collapse;
+    table-layout: fixed;
+    border: 1px solid #ddd;
+    max-height: 480px;
+    /* Allows scrolling once the content exceeds this height */
+    overflow-x: auto;
+    /* Enables horizontal scrolling if needed */
+    overflow-y: auto;
+    /* Enables vertical scrolling if needed */
+    display: block;
+    /* Required for overflow to work */
+}
+
+/* Sticky Table Header */
+.recent-visits-table th {
+    background: #115060;
+    color: white;
+    position: sticky;
+    top: 0;
+    /* Stick the header to the top */
+    z-index: 1;
+    /* Keeps the header above the table rows */
+    padding: 12px;
+}
+
+/* Table Data */
+.recent-visits-table th,
+.recent-visits-table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+}
+
+.recent-visits-table tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+.recent-visits-table td[style*="color: red"] {
+    font-weight: bold;
+    background: #ffe5e5;
+}
+
+/* Hide Horizontal Scrollbar */
+.recent-visit-section::-webkit-scrollbar {
+    height: 0;
+}
+
+.recent-visit-section {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .dashboard-content {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .statistics-section,
+    .recent-visit-section {
+        width: 100%;
+    }
+
+    .recent-visits-table {
+        min-width: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-header h1 {
+        font-size: 1.6rem;
+    }
+
+    .stat-item p {
+        font-size: 1.5rem;
+    }
+
+    .recent-visits-table th,
+    .recent-visits-table td {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+}
