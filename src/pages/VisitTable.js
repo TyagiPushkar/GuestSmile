@@ -184,7 +184,7 @@ const [selectedVisit, setSelectedVisit] = useState(null);
         </div>
       ) : (
         <>
-          <TableContainer style={{ maxHeight: 600 }}>
+          <TableContainer style={{ maxHeight: 450 }}>
             <Table stickyHeader>
               <TableHead>
                 <TableRow style={{ backgroundColor: '#115060' }}>

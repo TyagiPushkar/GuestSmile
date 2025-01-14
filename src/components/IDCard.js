@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  Card,
   CardContent,
   Typography,
   IconButton,
@@ -9,11 +8,10 @@ import {
   DialogContent,
   Divider,
 } from "@mui/material";
-import { FlipCameraAndroid, Close } from "@mui/icons-material";
+import { Close } from "@mui/icons-material";
 import "../assets/css/IDCard.css";
 
 const IDCard = ({ open, onClose, visit }) => {
-  const [flipped, setFlipped] = useState(false);
   const [imageDialogOpen, setImageDialogOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
 
@@ -56,9 +54,8 @@ const IDCard = ({ open, onClose, visit }) => {
           >
             <Close />
           </IconButton>
-          <div className={`card-container ${flipped ? "flipped" : ""}`}>
-            {/* Front Side - Personal Details */}
-            <div className="card front">
+          <div className="card-container">
+            <div className="card">
               <CardContent className="id-card-content">
                 <Typography
                   variant="h6"
@@ -74,7 +71,7 @@ const IDCard = ({ open, onClose, visit }) => {
                 <Divider sx={{ background: "#115060", height: "2px", margin: "10px 0" }} />
                 <Box
                   display="flex"
-                  flexDirection="row"
+                  flexDirection="column"
                   gap={2}
                   alignItems="center"
                   sx={{ marginBottom: "10px" }}
@@ -103,42 +100,6 @@ const IDCard = ({ open, onClose, visit }) => {
                     <Typography>
                       <strong>{visit.IdProof}:</strong> {visit.IdProofNumber || "N/A"}
                     </Typography>
-                  </Box>
-                </Box>
-              </CardContent>
-            </div>
-
-            {/* Back Side - Visit Details */}
-            <div className="card back">
-              <CardContent className="id-card-content">
-                <Typography
-                  variant="h6"
-                  align="center"
-                  sx={{
-                    fontWeight: "bold",
-                    color: "#2F4F75",
-                    marginBottom: "10px",
-                  }}
-                >
-                  Visit Details
-                </Typography>
-                <Divider sx={{ background: "#115060", height: "2px", margin: "10px 0" }} />
-                <Box
-                  display="flex"
-                  flexDirection="row"
-                  gap={2}
-                  alignItems="center"
-                  sx={{ marginBottom: "10px" }}
-                >
-                  <Box>
-                    <img
-                      src={visit.VisitorPhoto || "/placeholder-image.png"}
-                      alt="Visitor"
-                      className="clickable-image"
-                      onClick={() => handleImageClick(visit.VisitorPhoto)}
-                    />
-                  </Box>
-                  <Box>
                     <Typography>
                       <strong>Visitor Id:</strong> {visit.VisitorId || "N/A"}
                     </Typography>
@@ -159,16 +120,6 @@ const IDCard = ({ open, onClose, visit }) => {
               </CardContent>
             </div>
           </div>
-          <Box display="flex" justifyContent="center" mt={2}>
-            <IconButton
-              onClick={() => setFlipped(!flipped)}
-              color="black"
-              size="large"
-              sx={{ backgroundColor: "#115060", color: "white" }}
-            >
-              <FlipCameraAndroid />
-            </IconButton>
-          </Box>
         </DialogContent>
       </Dialog>
 
