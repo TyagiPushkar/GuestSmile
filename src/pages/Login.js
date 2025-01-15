@@ -7,6 +7,7 @@ const Login = ({setIsAuthenticated}) => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [companyName, setCompanyName] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -31,6 +32,7 @@ const handleLogin = async (event) => {
       body: JSON.stringify({
         email,
         password,
+        companyName
       }),
     });
 
@@ -39,6 +41,7 @@ const handleLogin = async (event) => {
     if (data.message === "Login successful") {
       console.log("Login successful", data);
       localStorage.setItem("user", JSON.stringify(data.user)); // Save user info in localStorage
+      localStorage.setItem("tenant", JSON.stringify(data.tenant));
       setIsAuthenticated(true); // Update authentication state
       navigate("/"); // Redirect to the dashboard
     } else {
@@ -62,7 +65,18 @@ const handleLogin = async (event) => {
         <div className="form-container">
           <h1>Welcome Back</h1>
           <p>Login to GuestSmile</p>
-          <form onSubmit={handleLogin}>
+            <form onSubmit={handleLogin}>
+              <div className="form-group">
+              <label htmlFor="companyName">Company</label>
+              <input
+                type="text"
+                id="companyName"
+                placeholder="Namami"
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
+                required
+              />
+            </div>
             <div className="form-group">
               <label htmlFor="loginId">Login ID</label>
               <input
