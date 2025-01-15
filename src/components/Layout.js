@@ -20,8 +20,7 @@ import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../assets/images/GuestSmile.png";
 import LoginIcon from '@mui/icons-material/Login';
-import LogoutIcon from '@mui/icons-material/Logout';
-
+import ApartmentIcon from '@mui/icons-material/Apartment';
 const drawerWidth = 180;
 
 const Layout = ({ children }) => {
@@ -30,7 +29,7 @@ const Layout = ({ children }) => {
     username: "Guest",
     image: "",
   };
-
+const tenant = JSON.parse(localStorage.getItem("tenant")) || {};
   const [anchorEl, setAnchorEl] = useState(null); // Profile menu state
   const [mobileOpen, setMobileOpen] = useState(false); // Mobile drawer state
   const [greeting, setGreeting] = useState('');
@@ -81,6 +80,14 @@ checkMobileView(); // Check for mobile view on page load
             <LoginIcon />
           </ListItemIcon>
           <ListItemText primary="Guest List" />
+        </ListItem>
+      </NavLink>
+      <NavLink to="/company" style={{ textDecoration: "none", color: "white" }}>
+        <ListItem button>
+          <ListItemIcon sx={{ color: "white" }}>
+            <ApartmentIcon />
+          </ListItemIcon>
+          <ListItemText primary="Company Profile" />
         </ListItem>
       </NavLink>
       
@@ -135,10 +142,10 @@ const checkMobileView = () => {
           {/* Profile and Logout */}
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Typography variant="body1" sx={{ mr: 2, display: { xs: "none", sm: "block" } }} color="white">
-              {user.Name}
+              {tenant.Name}
             </Typography>
             <IconButton onClick={handleProfileMenuOpen}>
-              <Avatar alt={user.Name} src={user.image || "/default-avatar.png"} />
+              <Avatar alt={user.Name} src={tenant.Logo || "/default-avatar.png"} />
             </IconButton>
             <Menu
               anchorEl={anchorEl}
