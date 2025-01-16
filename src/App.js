@@ -39,7 +39,7 @@ function App() {
                 <Routes>
                   <Route path="/" element={<Dashboard />} /> {/* Add the Dashboard route */}
                   <Route path="/employees" element={<Employee />} />
-                  <Route path="/guest-list" element={<VisitTable/> } />
+                  <Route path="/guest-list" element={<VisitTable />} />
                   {/* You can add more nested routes here */}
                 </Routes>
               </Layout>

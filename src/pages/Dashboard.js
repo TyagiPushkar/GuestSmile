@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import '../assets/css/Dashboard.css';
+import Company from './Company';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -43,6 +44,7 @@ const Dashboard = () => {
   };
 
   return (
+    <>
     <div className="dashboard-container">
       {/* <div className="dashboard-header">
         <h1>{greeting}</h1>
@@ -101,7 +103,10 @@ const Dashboard = () => {
           </table>
         </div>
       </div>
-    </div>
+      </div>
+      <h2 style={{textAlign:"center"}}>Company Profile</h2>
+      <Company/>
+      </>
   );
 };
 
