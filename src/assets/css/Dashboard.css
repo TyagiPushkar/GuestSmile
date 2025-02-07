@@ -61,32 +61,22 @@
     overflow: hidden;
 }
 
-/* Recent Visits Table */
 .recent-visits-table {
     width: 100%;
-    /* Set table width to 100% */
     border-collapse: collapse;
     table-layout: fixed;
-    border: 1px solid #ddd;
     max-height: 480px;
-    /* Allows scrolling once the content exceeds this height */
     overflow-x: auto;
-    /* Enables horizontal scrolling if needed */
     overflow-y: auto;
-    /* Enables vertical scrolling if needed */
     display: block;
-    /* Required for overflow to work */
 }
 
-/* Sticky Table Header */
 .recent-visits-table th {
     background: #115060;
     color: white;
     position: sticky;
     top: 0;
-    /* Stick the header to the top */
     z-index: 1;
-    /* Keeps the header above the table rows */
     padding: 12px;
 }
 
